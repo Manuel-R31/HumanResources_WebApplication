@@ -44,7 +44,7 @@ public class UsuarioManejador extends ManejadorAbstracto<Usuario> {
     }
     
     public void completarInformacion(Usuario usr){
-        log.info("ingresando a crear la identidad");
+        log.info("ingresando a crear la contrasena");
         setEntidadSeleccion(usr);
         this.contrasena = getEntidadSeleccion().getUsrContrasena();
     }
