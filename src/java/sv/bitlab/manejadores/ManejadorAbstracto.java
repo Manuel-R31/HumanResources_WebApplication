@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package sv.bitlab.manejadores;
 
 import sv.bitlab.utilidades.UtilidadesManejador;
@@ -16,30 +16,30 @@ import sv.bitlab.controladores.ControladorAbstracto;
 
 /**
  *
- * @author Oscar
+ * @author Manuel
  */
-public abstract class ManejadorAbstracto<T> {
-
+public abstract class ManejadorAbstracto <T> {
     private T entidadSeleccion;
     private List<T> entidadesLista;
     private Class<T> claseEntidad;
-
+    
+    
     public ManejadorAbstracto(Class<T> entidad) {
         claseEntidad = entidad;
     }
-
+    
     @PostConstruct
-    public void cargarInformacion() {
+    public void cargarInformacion(){
         entidadesLista = getControlador().encontrarEntidades();
     }
-
+    
     @PreDestroy
-    public void destruir() {
+    public void destruir(){
         entidadesLista = null;
         entidadSeleccion = null;
     }
-
-    public void nuevaEntidad() throws NoSuchMethodException {
+    
+    public void nuevaEntidad() throws NoSuchMethodException{
         try {
             entidadSeleccion = claseEntidad.getDeclaredConstructor().newInstance();
         } catch (InstantiationException ex) {
@@ -52,19 +52,21 @@ public abstract class ManejadorAbstracto<T> {
             Logger.getLogger(ManejadorAbstracto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public void guardarEntidad() {
+    
+    
+    public void guardarEntidad(){
         try {
             getControlador().editar(entidadSeleccion);
             cargarInformacion();
-            UtilidadesManejador.lanzarInfo("Exitoso ", claseEntidad.getSimpleName() + " ha sido guardado");
+            UtilidadesManejador.lanzarInfo("Exitoso ", claseEntidad.getSimpleName()+ " ha sido guardado");
         } catch (Exception e) {
             e.printStackTrace();
             UtilidadesManejador.lanzarError("Error al guardar ", e.getMessage());
         }
     }
-
-    public void eliminarEntidad() {
+    
+    
+    public void eliminarEntidad(){
         try {
             getControlador().destruir(entidadSeleccion);
             cargarInformacion();
@@ -74,23 +76,23 @@ public abstract class ManejadorAbstracto<T> {
             UtilidadesManejador.lanzarError("Error al eliminar producto ", e.getMessage());
         }
     }
-
+    
     public T getEntidadSeleccion() {
         return entidadSeleccion;
     }
-
+    
     public void setEntidadSeleccion(T entidadSeleccion) {
         this.entidadSeleccion = entidadSeleccion;
     }
-
+    
     public List<T> getEntidadesLista() {
         return entidadesLista;
     }
-
+    
     public void setEntidadesLista(List<T> entidadesLista) {
         this.entidadesLista = entidadesLista;
     }
-
+    
+    
     public abstract ControladorAbstracto<T> getControlador();
-
 }
