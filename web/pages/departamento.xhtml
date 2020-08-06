@@ -1,17 +1,68 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
     <body>
-
+        
         <ui:composition template="./../PrincipalTemplate.xhtml">
-
+            
             <ui:define name="content">
-                <h1 class="text-center" >Administracion de Departamentos</h1>
+                
+                <h:form id="tablaDepartamentos">
+                    <p:dataTable var="entidad" value="#{departamentoManejador.entidadesLista}" paginator="true" rows="6" reflow="true">  
+                        
+                        <p:column headerText="ID" filterBy="#{entidad.depId}" filterMatchMode="contains">
+                            <h:outputText  value="#{entidad.depId}"/>
+                        </p:column>
+                        <p:column headerText="Nombre Departamento" filterBy="#{entidad.depNombre}" filterMatchMode="contains">
+                            <h:outputText value="#{entidad.depNombre}"/>
+                        </p:column>
+                        <p:column headerText="Estado departamento" filterBy="#{entidad.edeId.edeNombre}" filterMatchMode="contains">
+                            <h:outputText value="#{entidad.edeId.edeNombre}"/>
+                        </p:column>
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":deptDetalles" oncomplete="PF('detailDialog').show()" icon="pi pi-search" title="Ver">
+                                <f:setPropertyActionListener value="#{entidad}" target="#{departamentoManejador.entidadSeleccion}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Nuevo departamento" actionListener="#{departamentoManejador.nuevaEntidad()}" process="@this" 
+                                     update=":deptDetalles" oncomplete="PF('detailDialog').show()"/>
+                </h:form>
+                
+                <h:form id="deptDetalles"> 
+                    <p:dialog header="Detalles de departamento" widgetVar="detailDialog" showEffect="explode"
+                              hideEffect="hide" resizable="false" position="center">
+                        
+                        <p:panelGrid columns="2" style="border: none !important;" >
+                            <h:outputText value="ID: "/>
+                            <h:outputText value="#{departamentoManejador.entidadSeleccion.depId}"/>
+                            <h:outputText value="Nombre Departamento: "/>
+                            <p:inputText value="#{departamentoManejador.entidadSeleccion.depNombre}"/>
+                            <h:outputText value="EstadoDep ID: "/>
+                            <p:inputText value="#{departamentoManejador.entidadSeleccion.edeId}"/>
+                            
+                            <p:outputLabel  value="Estado Departamento" />
+                            <p:selectOneMenu  value="#{estadoDepartamentoManejador.entidadSeleccion.edeId}" style="width:125px">
+                                <f:selectItem  itemLabel="-Seleccione-" itemValue="" />
+                                <f:selectItems itemLabel="#{estado.edeNombre}" var="estado" value="#{departamentoManejador.estadoDepList}" />
+                            </p:selectOneMenu>
+                            
+                            <p:commandButton value="Eliminar" actionListener="#{departamentoManejador.entidadesLista}" update=":messages :tablaDepartamentos :messagesAll" 
+                                             onsuccess="PF('detailDialog').hide()" />
+                            <p:commandButton value="Guardar" actionListener="#{departamentoManejador.guardarEntidad()}" 
+                                             update=":messages :tablaDepartamentos :messagesAll"/>
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>   
+                
             </ui:define>
-
+            
         </ui:composition>
-
+        
     </body>
 </html>
