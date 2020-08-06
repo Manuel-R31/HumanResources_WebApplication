@@ -28,9 +28,9 @@
                     <p class="login-box-msg">Validacion de acceso al sistema.</p>
                     <p class="login-box-msg">Por favor ingrese el codigo que se envio a su correo.</p>
 
-                    <form method="post">
+                    <h:form>
                         <div class="input-group mb-3">
-                            <p:inputText class="form-control" placeholder="Codigo"/>
+                            <p:inputText class="form-control" value="#{sesionUsuario.usuario.codigo}" placeholder="Codigo"/>
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-lock"></span>
@@ -39,11 +39,11 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary btn-block">Validar acceso</button>
+                                <button actionListener="#{sesionUsuario.doblefactor()}"  update=":messages :messagesAll" class="btn btn-primary btn-block">Validar acceso</button>
                             </div>
                             <!-- /.col -->
                         </div>
-                    </form>
+                    </h:form>
                 </div>
                 <!-- /.login-card-body -->
             </div>

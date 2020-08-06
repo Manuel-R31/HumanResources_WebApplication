@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -19,7 +20,7 @@
 
     <h:body>
         
-
+        <f:event listener="#{sesionUsuario.validarSesion()}" type="preRenderView"/>
         <div id="top" class="top">
             <ui:insert name="top">
                 <!-- Mensaje recibido del menejador -->
@@ -47,6 +48,7 @@
 
         <div>
             <div id="left">
+
                 <ui:insert name="left">
                     <!-- Main Sidebar Container -->
                     <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -65,7 +67,7 @@
                                             <i class="nav-icon fab fa-elementor"></i>
                                             <p>
                                                 Dashboard
-                                                
+
                                             </p>
                                         </a>
                                     </li>
@@ -138,7 +140,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                
+
                             </nav>
                             <!-- /.sidebar-menu -->
                         </div>
@@ -148,22 +150,28 @@
             </div>
 
             <div id="content" class="left_content">
-               
-                <ui:insert name="content">
+                <div class="content-wrapper">
+                    <ui:insert name="content">
 
-                </ui:insert>
+                    </ui:insert>
+                </div>
                 <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
                 <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
                     <h:graphicImage value="../resources/dist/img/loading.gif" width="140" height="140"/>
                 </p:dialog>
             </div>
         </div>
-        <!-- jQuery -->
-        <script src="../resources/plugins/jquery/jquery.min.js"></script>
+        <!-- jQuery 
+        <script src="../resources/plugins/jquery/jquery.min.js"></script>-->
         <!-- Bootstrap 4 -->
         <script src="../resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- AdminLTE App -->
         <script src="../resources/dist/js/adminlte.min.js"></script>
+        <!-- DataTables -->
+        <script src="../resources/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../resources/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../resources/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="../resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     </h:body>
 
 </html>

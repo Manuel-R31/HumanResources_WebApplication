@@ -18,6 +18,9 @@
         <link rel="stylesheet" href="resources/dist/css/adminlte.min.css" />
     </h:head>
     <h:body class="hold-transition login-page">
+        <!-- Mensaje recibido del menejador -->
+        <p:growl globalOnly="true" showDetail="true" showSummary="true" id="messages"/>
+        <p:messages id="messagesAll" closable="true" />
         <div class="login-box">
             <div class="login-logo">
                 <b>Sistema de Recursos Humanos</b>
@@ -29,27 +32,28 @@
 
                     <h:form>
                         <div class="input-group mb-3">
-                            <p:inputText type="email" class="form-control" placeholder="Correo" />
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-envelope"></span>
-                                    </div>
+                            <p:inputText class="form-control" value="#{sesionUsuario.usuario.usuario}" placeholder="Correo" />
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
                                 </div>
+                            </div>
                         </div>
                         <div class="input-group mb-3">
-                            <p:password class="form-control" placeholder="Contraseña" />
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
-                                    </div>
+                            <p:password class="form-control" placeholder="Contraseña" value="#{sesionUsuario.usuario.contrasena}"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
                                 </div>
+                            </div>
                         </div>
                         <div class="row">
 
                             <!-- /.col -->
                             <div class="col-6 ">
 
-                                <button type="submit" class="btn btn-primary btn-block">Iniciar sesion</button>
+                                <p:commandButton value="Iniciar Sesion" actionListener="#{sesionUsuario.validarUsuario()}" update=":messages :messagesAll"/>
+                                <script>$('#log').removeClass('ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ');$('#log').addClass('btn btn-primary btn-block');</script>
                             </div>
                             <!-- /.col -->
                         </div>

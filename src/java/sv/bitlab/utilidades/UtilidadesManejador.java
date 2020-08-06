@@ -7,12 +7,10 @@ package sv.bitlab.utilidades;
 
 import sv.bitlab.manejadores.SesionUsuario;
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.FacesEvent;
 
 /**
  *
@@ -43,7 +41,7 @@ public class UtilidadesManejador {
     public static void redireccion(String pagina){
         ExternalContext contex = FacesContext.getCurrentInstance().getExternalContext();
         try {
-            contex.redirect(contex.getRequestContextPath()+"/"+pagina+".dev");
+            contex.redirect(contex.getRequestContextPath()+"/pages/"+pagina+".devel");
         } catch (IOException e) {
             Logger.getLogger(SesionUsuario.class.getName());
         }
