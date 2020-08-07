@@ -1,6 +1,5 @@
 package sv.bitlab.manejadores;
 
-
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
@@ -51,11 +50,8 @@ public class SesionUsuario {
             EncriptacionTexto encriptacionTexto = new EncriptacionTexto();
             //Verificando la contraseña 
             if (usuario.getContrasena().equals(encriptacionTexto.getTextoDesencriptado(usr.getUsrContrasena()))) {
-                //Asignando rol a usaurio (obtenido desde la base
-                usuario.setRol(usr.getTipId().getTipId());
-                log.debug("Asignandole rol al usuario: " + usr.getUsrAcceso());
                 //Preparando codigo de doble factor de autenticacion
-                 cadena = codigoAcceso();
+                cadena = codigoAcceso();
                 //Funcion para enviar el correo electronico 
                 enviarCorreo(usr.getUsrNombre(), usr.getUsrAcceso(), cadena);
                 //Validando el codigo de acceso del usuario
@@ -68,14 +64,16 @@ public class SesionUsuario {
     //Verficia el codigo del doble factor de autenticacion y cierra la sesion si es erroneo
     public void doblefactor() {
         log.debug("Validando el codigo de seguridad");
-
+        Usuario usr = usuarioControlador.ObtenerUsuario(usuario.getUsuario());
         if (cadena.equalsIgnoreCase(usuario.getCodigo())) {
+            //Asignando rol a usaurio (obtenido desde la base
+            usuario.setRol(usr.getTipId().getTipId());
+            log.debug("Asignandole rol al usuario: " + usr.getUsrAcceso());
             UtilidadesManejador.redireccion("index");
         } else {
             UtilidadesManejador.lanzarAdvertencia("Codigo invalido", "Porfavor increse el codigo valido");
-        }        
+        }
     }
-
 
     public String codigoAcceso() {
         log.debug("Preparando cadena de seguridad");
