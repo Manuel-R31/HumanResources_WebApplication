@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../PrincipalTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1 class="text-center">Desactivar Empleado</h1>
+                <p:growl id="mensajes" globalOnly="true" showDetail="true" showSummary="true"/>
+                <h:form id="formEmpleado">
+                    <p:outputLabel value="Empleados"/>
+                    <p:dataTable var="emp" value="#{actualizarDatosManejador.empleadoLista}" style="margin-bottom:20px" reflow="true" rendered="true">
+                        <p:column headerText="ID">
+                            <h:outputText value="#{emp.empId}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{emp.empNombre}"/>
+                        </p:column>
+                        <p:column headerText="Dui">
+                            <h:outputText value="#{emp.empDui}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{emp.eemId.eemNombre}"/>
+                        </p:column>
+
+
+                        <p:column style="width:32px;text-align: center">
+                            <p:commandButton update=":formActualizarEmpleado" oncomplete="PF('empleadoDialog').show()" icon="pi pi-search" title="Ver">
+                                <f:setPropertyActionListener value="#{emp}" target="#{actualizarDatosManejador.empleado}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                </h:form>
+                <h:form id="formActualizarEmpleado">
+                    <p:dialog widgetVar="empleadoDialog" modal="true" header="Actualizar empleado"  width="30%" resizable="true" height="40%" >
+                        <center>
+                            <p:panelGrid columns="2" style="border:none">
+                                <h:outputText value="ID Empleado"/>
+                                <h:outputText value="#{actualizarDatosManejador.empleado.empId}"/>
+                                <h:outputText value="Nombre"/>
+                                <h:outputText value="#{actualizarDatosManejador.empleado.empNombre}"/>
+                                <h:outputText value="Apelldio"/>
+                                <h:outputText value="#{actualizarDatosManejador.empleado.empApellido}"/>
+
+                                <h:outputText value="Dui"/>
+                                <h:outputText value="#{actualizarDatosManejador.empleado.empDui}"/>
+
+
+
+                                <p:selectOneMenu id="console" value="#{actualizarDatosManejador.empleado.eemId}" style="width:125px">
+                                    <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems itemLabel="#{estado.eemNombre}" var="estado" value="#{actualizarDatosManejador.estadoEmpList}" />
+
+                                </p:selectOneMenu>
+
+
+                                <p:commandButton value="Actualizar" actionListener="#{actualizarDatosManejador.actualizarEmp()}" update=":mensajes :forDatosPorEstado :formEmpleado
+                                                 :forDatosPorEstadoS :forDatosPorEstadoD"/>
+                            </p:panelGrid>
+                        </center>
+                    </p:dialog>
+
+                </h:form>
+                <p:outputLabel value="Empleados Activos"/>
+                <h:form id="forDatosPorEstado">
+                    <p:dataTable var="user" value="#{actualizarDatosManejador.empleadoListaActivo}" style="margin-bottom:20px">
+                        <p:column headerText="ID" >
+                            <h:outputText value="#{user.empId}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{user.empNombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Apellido">
+                            <h:outputText value="#{user.empApellido}"/>
+                        </p:column>
+                        <p:column headerText="Fecha nacimiento">
+                            <h:outputText value="#{user.empFechaNac}"/>
+                        </p:column>
+                        <p:column headerText="Correo">
+                            <h:outputText value="#{user.empCorreo}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{user.eemId.eemNombre}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                
+                 <p:outputLabel value="Empleados Suspendidos"/>
+                <h:form id="forDatosPorEstadoS">
+                    <p:dataTable var="userS" value="#{actualizarDatosManejador.empleadoListaSuspendido}" style="margin-bottom:20px">
+                        <p:column headerText="ID" >
+                            <h:outputText value="#{userS.empId}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{userS.empNombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Apellido">
+                            <h:outputText value="#{userS.empApellido}"/>
+                        </p:column>
+                        <p:column headerText="Fecha nacimiento">
+                            <h:outputText value="#{userS.empFechaNac}"/>
+                        </p:column>
+                        <p:column headerText="Correo">
+                            <h:outputText value="#{userS.empCorreo}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{userS.eemId.eemNombre}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                 
+                  <p:outputLabel value="Empleados Despedidos"/>
+                <h:form id="forDatosPorEstadoD">
+                    <p:dataTable var="userD" value="#{actualizarDatosManejador.empleadoListaDespedido}" style="margin-bottom:20px">
+                        <p:column headerText="ID" >
+                            <h:outputText value="#{userD.empId}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{userD.empNombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Apellido">
+                            <h:outputText value="#{userD.empApellido}"/>
+                        </p:column>
+                        <p:column headerText="Fecha nacimiento">
+                            <h:outputText value="#{userD.empFechaNac}"/>
+                        </p:column>
+                        <p:column headerText="Correo">
+                            <h:outputText value="#{user.empCorreo}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{userD.eemId.eemNombre}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+
