@@ -46,4 +46,13 @@ public class UtilidadesManejador {
             Logger.getLogger(SesionUsuario.class.getName());
         }
     }
+    
+    public static void redireccionLogin(){
+        ExternalContext contex = FacesContext.getCurrentInstance().getExternalContext();
+            try {
+                contex.redirect(contex.getRequestContextPath() + "/login.devel");
+            } catch (IOException e) {
+                Logger.getLogger(SesionUsuario.class.getName());
+            }
+    }
 }
