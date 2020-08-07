@@ -9,23 +9,28 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
         <!-- Font Awesome -->
         <link rel="stylesheet" href="../resources/plugins/fontawesome-free/css/all.min.css" />
+        <!-- iCheck -->
+        <link rel="stylesheet" href="../resources/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>
         <!-- icheck bootstrap -->
         <link rel="stylesheet" href="../resources/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
         <!-- Theme style -->
         <link rel="stylesheet" href="../resources/dist/css/adminlte.min.css" />
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="../resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"/>
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="../resources/plugins/daterangepicker/daterangepicker.css"/>
 
     </h:head>
 
     <h:body>
-        
+
         <f:event listener="#{sesionUsuario.validarSesion()}" type="preRenderView"/>
         <div id="top" class="top">
             <ui:insert name="top">
-                <!-- Mensaje recibido del menejador -->
-                <p:growl globalOnly="true" showDetail="true" showSummary="true" id="messages"/>
-                <p:messages id="messagesAll" closable="true" />
+
                 <!-- Navbar -->
                 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
                     <!-- Left navbar links -->
@@ -72,13 +77,36 @@
                                         </a>
                                     </li>
                                     <li class="nav-header">MODULOS</li>
-                                     <li class="nav-item">
-                                        <a href="empleado.devel" class="nav-link">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
                                             <i class="nav-icon fas fa-users"></i>
                                             <p>
                                                 Empleados
+                                                <i class="fas fa-angle-left right"></i>
                                             </p>
                                         </a>
+
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="actualizarDatosE.devel" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Actualizar Datos</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="desactivarEmpleado.devel" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Desactivar Empleado</p>
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a href="contratarEmpleado.devel" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Contratar Empleado</p>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
 
                                     <li class="nav-item">
@@ -127,8 +155,24 @@
                                             <i class="nav-icon fas fa-file-invoice-dollar"></i>
                                             <p>
                                                 Planilla
+                                                <i class="fas fa-angle-left right"></i>
                                             </p>
                                         </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="pagosGenerados.devel" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Ver Pagos Generados</p>
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a href="planilla.devel" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Generar planilla</p>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                     <li class="nav-item">
                                         <a href="reporte.devel" class="nav-link">
@@ -166,12 +210,13 @@
                                     <br/>
                                     <br/>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="nav-icon fas fa-sign-out-alt"></i>
-                                            <p>
+                                        <h:form>
+                                            <p:commandButton value="Cerrar sesion" styleClass="nav-link" actionListener="#{sesionUsuario.cerrarSesion()}" >
+                                                <i class="nav-icon fas fa-sign-out-alt"></i>
                                                 Cerrar Sesion 
-                                            </p>
-                                        </a>
+
+                                            </p:commandButton>
+                                        </h:form>
                                     </li>
                                 </ul>
 
@@ -185,27 +230,42 @@
 
             <div id="content" class="left_content">
                 <div class="content-wrapper">
+                    <!-- Mensaje recibido del menejador -->
+                    <p:growl globalOnly="true" showDetail="true" showSummary="true" id="messages"/>
+                    <p:messages id="messagesAll" closable="true" />
                     <ui:insert name="content">
 
                     </ui:insert>
+
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <h:graphicImage value="../resources/dist/img/loading.gif" width="140" height="140"/>
+                    </p:dialog>
+
                 </div>
-                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-                    <h:graphicImage value="../resources/dist/img/loading.gif" width="140" height="140"/>
-                </p:dialog>
+                <footer class="main-footer">
+                    <strong>Copyright &copy; 2020 HR System.</strong>
+                    All rights reserved.
+                    <div class="float-right d-none d-sm-inline-block">
+                        <b>Version</b> 1.0
+                    </div>
+                </footer>
             </div>
         </div>
         <!-- jQuery 
         <script src="../resources/plugins/jquery/jquery.min.js"></script>-->
+        <!-- jQuery UI 1.11.4 -->
+        <script src="../resources/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- overlayScrollbars -->
+        <script src="../resources/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
         <!-- Bootstrap 4 -->
         <script src="../resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- AdminLTE App -->
         <script src="../resources/dist/js/adminlte.min.js"></script>
-        <!-- DataTables -->
-        <script src="../resources/plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="../resources/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <script src="../resources/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="../resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     </h:body>
 
 </html>

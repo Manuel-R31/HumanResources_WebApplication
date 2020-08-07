@@ -61,10 +61,7 @@
                             <p:password value="#{usuarioManejador.contrasena}"/>
                             
                             <h:outputLabel value="Rol:" />
-                            <p:selectOneMenu value="#{tipoUsuarioManejador.entidadSeleccion.tipId}" style="width:125px">
-                                <f:selectItem itemLabel="-Seleccione-" itemValue="" />
-                                <f:selectItems itemLabel="#{tipoUs.tipNombre}" var="tipoUs" value="#{usuarioManejador.tipoUsList}" />
-                            </p:selectOneMenu>
+
                             
                             <p:commandButton value="Eliminar" actionListener="#{usuarioManejador.eliminarEntidad()}" update=":messages :tablaUsuarios :messagesAll" 
                                              onsuccess="PF('detailDialog').hide()" />
