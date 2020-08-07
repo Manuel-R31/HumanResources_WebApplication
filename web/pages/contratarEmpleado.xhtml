@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../PrincipalTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1 class="text-center">Contratar Empleado</h1>
+
+                <p:growl id="mensajes" globalOnly="true" showDetail="true" showSummary="true"/>
+                <h:form id="formDatos">
+                    <p:growl id="mensajes" globalOnly="true" showDetail="true" showSummary="true"/>
+                    <p:dataTable var="empleado" value="#{actualizarDatosManejador.empleadoLista}" style="margin-bottom:20px">
+                        <p:column headerText="ID" >
+                            <h:outputText value="#{empleado.empId}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{empleado.empNombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Apellido">
+                            <h:outputText value="#{empleado.empApellido}"/>
+                        </p:column>
+                        <p:column headerText="Correo">
+                            <h:outputText value="#{empleado.empCorreo}"/>
+                        </p:column>
+                        <p:column headerText="Fecha de contratacion">
+                            <h:outputText value="#{empleado.empFechaContrato}"/>
+                        </p:column>
+                        <p:column headerText="Sexo">
+                            <h:outputText value="#{empleado.sexId.sexNombre}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{empleado.eemId.eemNombre}"/>
+                        </p:column>
+                        <p:column headerText="Estado Civil">
+                            <h:outputText value="#{empleado.eciId.eciNombre}"/>
+                        </p:column>
+                        <p:column headerText="Departamento">
+                            <h:outputText value="#{empleado.depId.depNombre}"/>
+                        </p:column>
+                        <p:column headerText="Cargo">
+                            <h:outputText value="#{empleado.carId.carNombre}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:commandButton value="Nuevo Empleado"  process="@this" update="formNuevoUser" oncomplete="PF('productoDialog').show()"/>
+
+                </h:form>
+
+                <h:form id="formNuevoUser">
+                    <p:dialog widgetVar="productoDialog" modal="true" header="Nuevo Empleado"  width="60%" resizable="true" height="60%">
+                        <p:growl id="growl" sticky="true" showDetail="true"/>
+
+                        <p:wizard >
+                            <p:tab id="personal" title="Datos">
+                                <p:panel header="Datos Personales">
+                                    <p:messages />
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                        <h:outputText value="Nombre *" />
+                                        <p:inputText value="#{actualizarDatosManejador.empleado.empNombre}" required="true"/>
+
+                                        <h:outputText value="Apellido"  />
+                                        <p:inputText value="#{actualizarDatosManejador.empleado.empApellido}" required="true"/>
+
+                                        <h:outputText value="Telefono " />
+                                        <p:inputMask  value="#{actualizarDatosManejador.empleado.empTelefono}" mask=" 9999-99"/>
+
+
+
+
+                                        <h:outputText value="Correo " />
+                                        <p:inputText value="#{actualizarDatosManejador.empleado.empCorreo}">
+                                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                        </p:inputText>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:tab>
+
+                            <p:tab id="address" title="Datos">
+                                <p:panel header="Datos Personales">
+                                    <p:messages />
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                        
+                                        <h:outputText value="DUI" />
+                                        <p:inputText  value="#{actualizarDatosManejador.empleado.empDui}"/>
+
+
+                                        <h:outputText value="DIRECCION" />
+                                        <p:inputText value="#{actualizarDatosManejador.empleado.empDireccion}" required="true"/>
+
+                                        <h:outputText value="Fecha Nacimiento"/>
+                                        <p:calendar value="#{actualizarDatosManejador.empleado.empFechaNac}" pattern="dd/MM/yyyy"/>
+
+
+                                        <h:outputText value="Fecha Contratacion"/>
+                                        <p:calendar value="#{actualizarDatosManejador.empleado.empFechaContrato}" pattern="dd/MM/yyyy"/>
+
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:tab>
+
+                            <p:tab id="contact" title="Asignacion">
+                                <p:panel header="Asignacion">
+                                    <p:messages />
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                        <h:outputText value="Sexo"/>
+                                        <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.sexId}" style="width:125px">
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems itemLabel="#{estadoS.sexNombre}" var="estadoS" value="#{fKmanejador.sexoList}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Estado Empleado"/>
+                                        <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.eemId}" style="width:125px">
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems itemLabel="#{estadoEE.eemNombre}" var="estadoEE" value="#{fKmanejador.estadoEmpleadoList}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Estado Civil"/>
+                                        <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.eciId}" style="width:125px">
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems itemLabel="#{estadoC.eciNombre}" var="estadoC" value="#{fKmanejador.estadoCivil}" />
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:tab>
+
+                            <p:tab id="contactA" title="Asignacion">
+                                <p:panel header="Asignacion">
+                                    <p:messages />
+                                    <h:panelGrid columns="2" columnClasses="label, value">
+                                        <h:outputText value="Departamento"/>
+                                        <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.depId}" style="width:125px">
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems itemLabel="#{estadoD.depNombre}" var="estadoD" value="#{fKmanejador.departamentoList}" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputText value="Cargo"/>
+                                        <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.carId}" style="width:125px">
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems itemLabel="#{estadoCA.carNombre}" var="estadoCA" value="#{fKmanejador.cargoList}" />
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:tab>
+
+                            <p:tab id="confirm" title="Confirmation">
+                                <p:panel header="Confirmation">
+                                    <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+                                        <h:panelGrid columns="2" columnClasses="label, value">
+                                            <h:outputText value="Nombre " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.empId}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Apellido " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.empApellido}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Telefono " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.empTelefono}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Correo " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.empCorreo}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Dui " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.empDui}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Fecha nacimiento " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.empFechaNac}" styleClass="outputLabel"/>
+                                        </h:panelGrid>
+
+                                        <h:panelGrid columns="2" columnClasses="label, value">
+                                            <h:outputText value="Fecha Contratacion " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.empFechaContrato}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="sexo" />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.sexId.sexNombre}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Estado Empleado " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.eemId.eemNombre}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Estado Civil " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.eciId.eciNombre}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Departamento" />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.depId.depNombre}" styleClass="outputLabel"/>
+
+                                            <h:outputText value="Cargo " />
+                                            <h:outputText value="#{actualizarDatosManejador.empleado.carId.carNombre}" styleClass="outputLabel"/>
+                                            <h:outputText />
+                                            <h:outputText />
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+
+                                    <p:commandButton value="guardar" actionListener="#{actualizarDatosManejador.actualizarEmp()}" update=":mensajes :formDatos"/>
+                                </p:panel>
+                            </p:tab>
+                        </p:wizard>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+
