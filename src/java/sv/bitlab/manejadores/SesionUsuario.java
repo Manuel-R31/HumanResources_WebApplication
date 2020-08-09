@@ -1,6 +1,5 @@
 package sv.bitlab.manejadores;
 
-
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
@@ -9,6 +8,7 @@ import javax.faces.bean.SessionScoped;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.primefaces.PrimeFaces;
 import org.slf4j.LoggerFactory;
 import sv.bitlab.controladores.ConfiguracionControlador;
 import sv.bitlab.controladores.TipoUsuarioControlador;
@@ -32,6 +32,8 @@ public class SesionUsuario {
     private ConfiguracionControlador configuracionControlador;
     private TipoUsuarioControlador tipoUsuarioControlador;
     private String cadena;
+    private int empleadosNuevos;
+    
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SesionUsuario.class);
 
     @PostConstruct
@@ -42,40 +44,40 @@ public class SesionUsuario {
     }
 
     public void validarUsuario() {
-        UtilidadesManejador.lanzarAdvertencia("Datos erroneos", "El usuario o la contraseña son invalidos");
         Usuario usr = usuarioControlador.ObtenerUsuario(usuario.getUsuario());
-        if (usr == null) {
-            UtilidadesManejador.lanzarAdvertencia("Usaurio invalido", "El usuario o la contraseña son invalidos");
-        } else {
+        if (usr != null) {
             //Encriptando Texto de la base 
             EncriptacionTexto encriptacionTexto = new EncriptacionTexto();
             //Verificando la contraseña 
             if (usuario.getContrasena().equals(encriptacionTexto.getTextoDesencriptado(usr.getUsrContrasena()))) {
-                //Asignando rol a usaurio (obtenido desde la base
-                usuario.setRol(usr.getTipId().getTipId());
-                log.debug("Asignandole rol al usuario: " + usr.getUsrAcceso());
                 //Preparando codigo de doble factor de autenticacion
-                 cadena = codigoAcceso();
+                cadena = codigoAcceso();
+                UtilidadesManejador.redireccion("validacion");
                 //Funcion para enviar el correo electronico 
                 enviarCorreo(usr.getUsrNombre(), usr.getUsrAcceso(), cadena);
-                //Validando el codigo de acceso del usuario
-//                validarCodigoAcceso(cadena, usr.getUsrNombre());
-                UtilidadesManejador.redireccion("validacion");
-            }
+            }else 
+                UtilidadesManejador.lanzarAdvertencia("Usaurio invalido", "El usuario o la contraseña son invalidos");
+        } else {
+            UtilidadesManejador.lanzarAdvertencia("Usaurio invalido", "El usuario o la contraseña son invalidos");
         }
     }
 
     //Verficia el codigo del doble factor de autenticacion y cierra la sesion si es erroneo
     public void doblefactor() {
         log.debug("Validando el codigo de seguridad");
-
+        Usuario usr = usuarioControlador.ObtenerUsuario(usuario.getUsuario());
         if (cadena.equalsIgnoreCase(usuario.getCodigo())) {
+            //Asignando rol a usaurio (obtenido desde la base
+            usuario.setRol(usr.getTipId().getTipId());
+            log.debug("Asignandole rol al usuario: " + usr.getUsrAcceso());
+            String nombreCompleto = "Bienvenido/a "+usr.getUsrNombre()+" "+ usr.getUsrApellido();
+            usuario.setNombre(nombreCompleto);
             UtilidadesManejador.redireccion("index");
         } else {
-            UtilidadesManejador.lanzarAdvertencia("Codigo invalido", "Porfavor increse el codigo valido");
-        }        
+            UtilidadesManejador.lanzarAdvertencia("Codigo invalido", "Por favor ingrese el codigo valido");
+            PrimeFaces.current().resetInputs("form");
+        }
     }
-
 
     public String codigoAcceso() {
         log.debug("Preparando cadena de seguridad");
