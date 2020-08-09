@@ -37,6 +37,7 @@ public class ActualizarDatosManejador {
     private EstadoEmpleado estadoEmp, estadoA, estadoS, estadoD;
     private List<EstadoEmpleado> estadoEmpList;
     private EstadoEmpleadoControlador estadoEmpleadoControlador = new EstadoEmpleadoControlador();
+    
   
 
     @PostConstruct
@@ -50,7 +51,7 @@ public class ActualizarDatosManejador {
             empleadoListaActivo = empControlador.EmpleadoPorEstado("Activo");
             empleadoListaSuspendido = empControlador.EmpleadoPorEstado("Suspendido");
             empleadoListaDespedido = empControlador.EmpleadoPorEstado("Despedido");
-
+            
         } catch (Exception ex) {
             Logger.getLogger(ActualizarDatosManejador.class.getName()).log(Level.SEVERE, null, ex);
         }

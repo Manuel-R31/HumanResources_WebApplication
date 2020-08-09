@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -41,9 +42,9 @@
                         <li class="nav-item d-none d-sm-inline-block">
                             <a href="index.devel" class="nav-link">Home</a>
                         </li>
-                        <li class="nav-item d-none d-sm-inline-block">
-                            <a href="empleado.devel" class="nav-link">Empleado</a>
-                        </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <h:outputLabel value="#{sesionUsuario.usuario.nombre}" style="margin-right:20px;"/>
                     </ul>
                 </nav>
                 <!-- /.navbar -->
@@ -72,7 +73,6 @@
                                             <i class="nav-icon fab fa-elementor"></i>
                                             <p>
                                                 Dashboard
-
                                             </p>
                                         </a>
                                     </li>
@@ -85,7 +85,7 @@
                                                 <i class="fas fa-angle-left right"></i>
                                             </p>
                                         </a>
-
+                                        
                                         <ul class="nav nav-treeview">
                                             <li class="nav-item">
                                                 <a href="actualizarDatosE.devel" class="nav-link">
@@ -108,41 +108,7 @@
                                             </li>
                                         </ul>
                                     </li>
-
                                     <li class="nav-item">
-                                        <a href="actualizarDatosE.devel" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Actualizar Datos</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="desactivarEmpleado.devel" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Desactivar Empleado</p>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="contratarEmpleado.devel" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Contratar Empleado</p>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="pagosGenerados.devel" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Ver Pagos Generados</p>
-                                        </a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a href="planilla.devel" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Generar planilla</p>
-                                        </a>
-                                    </li>
-                                <li class="nav-item">
                                         <a href="departamento.devel" class="nav-link">
                                             <i class="nav-icon fas fa-address-book"></i>
                                             <p>
@@ -182,6 +148,8 @@
                                             </p>
                                         </a>
                                     </li>
+                                    <h:form rendered="#{sesionUsuario.usuario.rol eq '1'}">
+                                        
                                     <li class="nav-header">ADMINISTRACION</li>
                                     <li class="nav-item">
                                         <a href="usuario.devel" class="nav-link">
@@ -207,19 +175,16 @@
                                             </p>
                                         </a>
                                     </li>
-                                    <br/>
-                                    <br/>
-                                    <li class="nav-item">
-                                        <h:form>
-                                            <p:commandButton value="Cerrar sesion" styleClass="nav-link" actionListener="#{sesionUsuario.cerrarSesion()}" >
-                                                <i class="nav-icon fas fa-sign-out-alt"></i>
-                                                Cerrar Sesion 
-
-                                            </p:commandButton>
-                                        </h:form>
-                                    </li>
+                                    </h:form>
                                 </ul>
-
+                                <br/>
+                                <br/>
+                                <li class="nav-item">
+                                    <h:form>
+                                        <p:commandButton value="Cerrar sesion" icon="pi pi-exclamation-triangle" class="log" actionListener="#{sesionUsuario.cerrarSesion()}" />
+                                        <script>$('.log').removeClass('ui-button ui-widget  ui-corner-all ui-button-text-only ');$('.log').addClass('btn btn-app bg-danger');</script>
+                                    </h:form>
+                                </li>
                             </nav>
                             <!-- /.sidebar-menu -->
                         </div>
@@ -258,7 +223,7 @@
         <script src="../resources/plugins/jquery-ui/jquery-ui.min.js"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
-            $.widget.bridge('uibutton', $.ui.button)
+                                                $.widget.bridge('uibutton', $.ui.button)
         </script>
         <!-- overlayScrollbars -->
         <script src="../resources/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>

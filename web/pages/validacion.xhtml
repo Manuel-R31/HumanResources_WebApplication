@@ -19,6 +19,8 @@
     </h:head>
     <h:body class="hold-transition login-page">
         <div class="login-box">
+            <!-- Mensaje recibido del menejador -->
+            <p:messages id="messagesAll" closable="true" showDetail="true" />
             <div class="login-logo">
                 <b>Sistema de Recursos Humanos</b>
             </div>
@@ -28,20 +30,21 @@
                     <p class="login-box-msg">Validacion de acceso al sistema.</p>
                     <p class="login-box-msg">Por favor ingrese el codigo que se envio a su correo.</p>
 
-                    <h:form>
+                    <h:form id="validar">
                         <div class="input-group mb-3">
                             <p:inputText class="form-control" value="#{sesionUsuario.usuario.codigo}" placeholder="Codigo"/>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
-                                    </div>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
                                 </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <button actionListener="#{sesionUsuario.doblefactor()}"  update=":messages :messagesAll" class="btn btn-primary btn-block">Validar acceso</button>
+                                <p:commandButton icon="pi pi-sign-in" value="Validar Acceso" actionListener="#{sesionUsuario.doblefactor()}"  update=":messagesAll" resetValues="true" />
                             </div>
                             <!-- /.col -->
+
                         </div>
                     </h:form>
                 </div>
@@ -50,6 +53,10 @@
         </div>
         <!-- /.login-box -->
 
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" position="center">
+            <h:graphicImage value="../resources/dist/img/loading.gif" width="140" height="140"/>
+        </p:dialog>
         <!-- jQuery -->
         <script src="../resources/plugins/jquery/jquery.min.js"></script>
         <!-- Bootstrap 4 -->

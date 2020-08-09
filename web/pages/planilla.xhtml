@@ -1,14 +1,58 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./../PrincipalTemplate.xhtml">
-
             <ui:define name="content">
-                <h1 class="text-center">Planillas</h1>
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Generacion de planillas </h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index.devel">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Planillas</li>
+                                </ol>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+
+
+
+
+                <!-- Main content -->
+                <section class="content">    
+                    <div class="container-fluid">
+
+                        <h:form>
+                            <p:panelGrid columns="2" >
+                                <h:outputText value="Codigo unico de planilla "/>
+                                <p:inputText value="#{planillaManejador.codigo}"/>
+                                <h:outputText value="Fecha Inicio"/>
+                                <p:calendar value="#{planillaManejador.fecha_inicio}" pattern="dd/MM/yyyy"/>
+                                <h:outputText value="Fecha fin"/>
+                                <p:calendar value="#{planillaManejador.fecha_fin}" pattern="dd/MM/yyyy"/>
+                            </p:panelGrid>
+                            <br/>
+                            <br/>
+                            <p:commandButton value="Generar planilla" actionListener="#{planillaManejador.generarPlanilla()}"  
+                                             update=":messages :messagesAll"  icon="pi pi-plus"/>
+                            <br/>
+                        </h:form>
+                    </div><!-- /.container-fluid -->
+                </section>
+
             </ui:define>
 
         </ui:composition>

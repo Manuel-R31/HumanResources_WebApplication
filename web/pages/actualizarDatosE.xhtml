@@ -11,83 +11,107 @@
         <ui:composition template="./../PrincipalTemplate.xhtml">
 
             <ui:define name="content">
-                <h1 class="text-center">Actualizar datos</h1>
-                <p:growl id="mensajes" globalOnly="true" showDetail="true" showSummary="true"/>
-                <h:form id="formEmpleado">
-                    <p:dataTable var="emp" value="#{actualizarDatosManejador.empleadoLista}" style="margin-bottom:20px" reflow="true" rendered="true">
-                        <p:column headerText="ID">
-                            <h:outputText value="#{emp.empId}"/>
-                        </p:column>
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Actualizacion de empleado </h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index.devel">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Actualizacion de empleado</li>
+                                </ol>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <!-- Main content -->
+                <section class="content">    
+                    <div class="container-fluid">
+                        <p:growl id="mensajes" globalOnly="true" showDetail="true" showSummary="true"/>
+                        <h:form id="formEmpleado">
+                            <p:dataTable var="emp" value="#{actualizarDatosManejador.empleadoLista}" style="margin-bottom:20px" reflow="true" rendered="true">
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{emp.empId}"/>
+                                </p:column>
 
-                        <p:column headerText="Nombre">
-                            <h:outputText value="#{emp.empNombre}"/>
-                        </p:column>
+                                <p:column headerText="Nombre">
+                                    <h:outputText value="#{emp.empNombre}"/>
+                                </p:column>
 
-                        <p:column headerText="Apellido" >
-                            <h:outputText value="#{emp.empApellido}"/>
-                        </p:column>
+                                <p:column headerText="Apellido" >
+                                    <h:outputText value="#{emp.empApellido}"/>
+                                </p:column>
 
-                        <p:column headerText="Correo">
-                            <h:outputText value="#{emp.empCorreo}"/>
-                        </p:column>
+                                <p:column headerText="Correo">
+                                    <h:outputText value="#{emp.empCorreo}"/>
+                                </p:column>
 
-                        <p:column headerText="Telefono">
-                            <h:outputText value="#{emp.empTelefono}"/>
-                        </p:column>
-                        <p:column headerText="Dui">
-                            <h:outputText value="#{emp.empDui}"/>
-                        </p:column>
-                        <p:column headerText="Direccion">
-                            <h:outputText value="#{emp.empDireccion}"/>
-                        </p:column>
-                        <p:column headerText="Fecha nacimiento">
-                            <h:outputText value="#{emp.empFechaNac}"/>
-                        </p:column>
-                        <p:column headerText="Fecha Contratacion">
-                            <h:outputText value="#{emp.empFechaContrato}"/>
-                        </p:column>
+                                <p:column headerText="Telefono">
+                                    <h:outputText value="#{emp.empTelefono}"/>
+                                </p:column>
+                                <p:column headerText="Dui">
+                                    <h:outputText value="#{emp.empDui}"/>
+                                </p:column>
+                                <p:column headerText="Direccion">
+                                    <h:outputText value="#{emp.empDireccion}"/>
+                                </p:column>
+                                <p:column headerText="Fecha nacimiento">
+                                    <h:outputText value="#{emp.empFechaNac}"/>
+                                </p:column>
+                                <p:column headerText="Fecha Contratacion">
+                                    <h:outputText value="#{emp.empFechaContrato}"/>
+                                </p:column>
 
-                        <p:column style="width:32px;text-align: center">
-                            <p:commandButton update=":formActualizarEmpleado" oncomplete="PF('empleadoDialog').show()" icon="pi pi-search" title="Ver">
-                                <f:setPropertyActionListener value="#{emp}" target="#{actualizarDatosManejador.empleado}" />
-                            </p:commandButton>
-                        </p:column>
+                                <p:column style="width:32px;text-align: center">
+                                    <p:commandButton update=":formActualizarEmpleado" oncomplete="PF('empleadoDialog').show()" icon="pi pi-search" title="Ver">
+                                        <f:setPropertyActionListener value="#{emp}" target="#{actualizarDatosManejador.empleado}" />
+                                    </p:commandButton>
+                                </p:column>
 
-                    </p:dataTable>
+                            </p:dataTable>
 
 
-                </h:form>
-                <h:form id="formActualizarEmpleado">
-                    <p:dialog widgetVar="empleadoDialog" modal="true" header="Actualizar empleado"  width="30%" resizable="true" height="40%" >
-                        <center>
-                            <p:panelGrid columns="2" style="border:none">
-                                <h:outputText value="ID Empleado"/>
-                                <h:outputText value="#{actualizarDatosManejador.empleado.empId}"/>
-                                <h:outputText value="Nombre"/>
-                                <h:inputText value="#{actualizarDatosManejador.empleado.empNombre}"/>
-                                <h:outputText value="Apellido"/>
-                                <h:inputText value="#{actualizarDatosManejador.empleado.empApellido}"/>
-                                <h:outputText value="Correo"/>
-                                <p:inputText value="#{actualizarDatosManejador.empleado.empCorreo}">
-                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
-                                </p:inputText>
-                                <h:outputText value="Telefono"/>
-                                <p:inputText value="#{actualizarDatosManejador.empleado.empTelefono}" maxlength="8"/>
-                                <h:outputText value="Dui"/>
-                                <p:inputText value="#{actualizarDatosManejador.empleado.empDui}"  maxlength="8"/>
-                                <h:outputText value="Direcion"/>
-                                <h:inputText value="#{actualizarDatosManejador.empleado.empDireccion}"/>
-                                <h:outputText value="Fecha Nacimiento"/>
-                                <p:calendar value="#{actualizarDatosManejador.empleado.empFechaNac}" pattern="dd/MM/yyyy"/>
-                                <h:outputText value="Fecha Contratacion"/>
-                                <p:calendar value="#{actualizarDatosManejador.empleado.empFechaContrato}" pattern="dd/MM/yyyy"/>
+                        </h:form>
+                        <h:form id="formActualizarEmpleado">
+                            <p:dialog widgetVar="empleadoDialog" modal="true" header="Actualizar empleado"  width="30%" resizable="true" height="40%" >
+                                <center>
+                                    <p:panelGrid columns="2" style="border:none">
+                                        <h:outputText value="ID Empleado"/>
+                                        <h:outputText value="#{actualizarDatosManejador.empleado.empId}"/>
+                                        <h:outputText value="Nombre"/>
+                                        <h:inputText value="#{actualizarDatosManejador.empleado.empNombre}"/>
+                                        <h:outputText value="Apellido"/>
+                                        <h:inputText value="#{actualizarDatosManejador.empleado.empApellido}"/>
+                                        <h:outputText value="Correo"/>
+                                        <p:inputText value="#{actualizarDatosManejador.empleado.empCorreo}">
+                                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                        </p:inputText>
+                                        <h:outputText value="Telefono"/>
+                                        <p:inputText value="#{actualizarDatosManejador.empleado.empTelefono}" maxlength="8"/>
+                                        <h:outputText value="Dui"/>
+                                        <p:inputText value="#{actualizarDatosManejador.empleado.empDui}"  maxlength="8"/>
+                                        <h:outputText value="Direcion"/>
+                                        <h:inputText value="#{actualizarDatosManejador.empleado.empDireccion}"/>
+                                        <h:outputText value="Fecha Nacimiento"/>
+                                        <p:calendar value="#{actualizarDatosManejador.empleado.empFechaNac}" pattern="dd/MM/yyyy"/>
+                                        <h:outputText value="Fecha Contratacion"/>
+                                        <p:calendar value="#{actualizarDatosManejador.empleado.empFechaContrato}" pattern="dd/MM/yyyy"/>
 
-                                <p:commandButton value="Actualizar" actionListener="#{actualizarDatosManejador.actualizarEmp()}" update=":mensajes :formEmpleado"/>
-                            </p:panelGrid>
-                        </center>
-                    </p:dialog>
+                                        <p:commandButton value="Actualizar" actionListener="#{actualizarDatosManejador.actualizarEmp()}" update=":mensajes :formEmpleado"/>
+                                    </p:panelGrid>
+                                </center>
+                            </p:dialog>
 
-                </h:form>
+                        </h:form>
+
+                    </div><!-- /.container-fluid -->
+                </section>
+
+
             </ui:define>
 
         </ui:composition>

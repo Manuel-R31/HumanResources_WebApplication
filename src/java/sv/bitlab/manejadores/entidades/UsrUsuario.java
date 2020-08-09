@@ -17,6 +17,7 @@ public class UsrUsuario {
     private String contrasena;
     private String codigo;
     private Date fechaIngreso;
+    private String nombre;
 
     public String getUsuario() {
         return Usuario;
@@ -59,6 +60,15 @@ public class UsrUsuario {
     public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
     
     
     
