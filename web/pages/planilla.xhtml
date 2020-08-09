@@ -9,7 +9,6 @@
     <body>
 
         <ui:composition template="./../PrincipalTemplate.xhtml">
-
             <ui:define name="content">
                 <!-- Content Header (Page header) -->
                 <div class="content-header">
@@ -37,73 +36,20 @@
                     <div class="container-fluid">
 
                         <h:form>
-                            <p:commandButton value="Generar planilla" actionListener="#{departamentoManejador.nuevaEntidad()}" process="@this" 
-                                             update=":deptDetalles" oncomplete="PF('detailDialog').show()" icon="pi pi-plus"/>
-                            <br/>
-                            <br/>
-                            <p:panelGrid columns="2">
+                            <p:panelGrid columns="2" >
                                 <h:outputText value="Codigo unico de planilla "/>
-                                <p:inputText/>
-                                <h:outputText value="Fecha inicio"/>
-                                <p:inputText/>
-                                <h:outputText value="Fecha Fin"/>
-                                <p:inputText/>
+                                <p:inputText value="#{planillaManejador.codigo}"/>
+                                <h:outputText value="Fecha Inicio"/>
+                                <p:calendar value="#{planillaManejador.fecha_inicio}" pattern="dd/MM/yyyy"/>
+                                <h:outputText value="Fecha fin"/>
+                                <p:calendar value="#{planillaManejador.fecha_fin}" pattern="dd/MM/yyyy"/>
                             </p:panelGrid>
                             <br/>
-                        </h:form>
-
-
-                        <h:form id="tablaDepartamentos">
-                            <p:commandButton value="Nuevo departamento" actionListener="#{departamentoManejador.nuevaEntidad()}" process="@this" 
-                                             update=":deptDetalles" oncomplete="PF('detailDialog').show()" icon="pi pi-plus"/>
                             <br/>
+                            <p:commandButton value="Generar planilla" actionListener="#{planillaManejador.generarPlanilla()}"  
+                                             update=":messages :messagesAll"  icon="pi pi-plus"/>
                             <br/>
-                            <p:dataTable var="entidad" value="#{departamentoManejador.entidadesLista}" paginator="true" rows="6" reflow="true">  
-
-                                <p:column headerText="ID" filterBy="#{entidad.depId}" filterMatchMode="contains">
-                                    <h:outputText  value="#{entidad.depId}"/>
-                                </p:column>
-                                <p:column headerText="Nombre Departamento" filterBy="#{entidad.depNombre}" filterMatchMode="contains">
-                                    <h:outputText value="#{entidad.depNombre}"/>
-                                </p:column>
-                                <p:column headerText="Estado departamento" filterBy="#{entidad.edeId.edeNombre}" filterMatchMode="contains">
-                                    <h:outputText value="#{entidad.edeId.edeNombre}"/>
-                                </p:column>
-                                <p:column style="width:32px;text-align: center">
-                                    <p:commandButton update=":deptDetalles" oncomplete="PF('detailDialog').show()" icon="pi pi-search" title="Ver">
-                                        <f:setPropertyActionListener value="#{entidad}" target="#{departamentoManejador.entidadSeleccion}"/>
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
-
                         </h:form>
-
-                        <h:form id="deptDetalles"> 
-                            <p:dialog header="Detalles de departamento" widgetVar="detailDialog" showEffect="explode"
-                                      hideEffect="hide" resizable="false" position="center">
-
-                                <p:panelGrid columns="2" style="border: none !important;" >
-                                    <h:outputText value="ID: "/>
-                                    <h:outputText value="#{departamentoManejador.entidadSeleccion.depId}"/>
-                                    <h:outputText value="Nombre Departamento: "/>
-                                    <p:inputText value="#{departamentoManejador.entidadSeleccion.depNombre}"/>
-                                    <h:outputText value="EstadoDep ID: "/>
-                                    <p:inputText value="#{departamentoManejador.entidadSeleccion.edeId}"/>
-
-                                    <p:outputLabel  value="Estado Departamento" />
-
-
-                                </p:panelGrid>
-                                <br/>
-                                <center>
-                                    <p:commandButton value="Guardar" actionListener="#{departamentoManejador.guardarEntidad()}" 
-                                                     update=":messages :tablaDepartamentos :messagesAll" icon="pi pi-pencil" styleClass="btn btn-warning" />
-                                    <span>  </span>
-                                    <p:commandButton value="Eliminar" icon="pi pi-trash" actionListener="#{departamentoManejador.entidadesLista}" update=":messages :tablaDepartamentos :messagesAll" 
-                                                     onsuccess="PF('detailDialog').hide()" styleClass="btn btn-danger"/>
-                                </center>
-                            </p:dialog>
-                        </h:form>   
                     </div><!-- /.container-fluid -->
                 </section>
 

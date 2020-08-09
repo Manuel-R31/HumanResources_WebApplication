@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -18,10 +19,10 @@
         <link rel="stylesheet" href="resources/dist/css/adminlte.min.css" />
     </h:head>
     <h:body class="hold-transition login-page">
-        <!-- Mensaje recibido del menejador -->
-        <p:growl globalOnly="true" showDetail="true" showSummary="true" id="messages"/>
-        <p:messages id="messagesAll" closable="true" />
+
         <div class="login-box">
+            <!-- Mensaje recibido del menejador -->
+            <p:messages id="messagesAll" closable="true" showDetail="true" />
             <div class="login-logo">
                 <b>Sistema de Recursos Humanos</b>
             </div>
@@ -30,9 +31,12 @@
                 <div class="card-body login-card-body">
                     <p class="login-box-msg">Por favor identifiquese para acceder al sistema.</p>
 
-                    <h:form>
+                    <h:form id="login">
                         <div class="input-group mb-3">
-                            <p:inputText class="form-control" value="#{sesionUsuario.usuario.usuario}" placeholder="Correo" />
+                            <p:inputText class="form-control" value="#{sesionUsuario.usuario.usuario}" placeholder="Correo" validatorMessage="Error, por favor ingrese un correo valido" >
+                                 <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                            </p:inputText>
+                            
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -51,21 +55,26 @@
 
                             <!-- /.col -->
                             <div class="col-6 ">
-
-                                <p:commandButton value="Iniciar Sesion" actionListener="#{sesionUsuario.validarUsuario()}" update=":messages :messagesAll"/>
-                                <script>$('#log').removeClass('ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ');$('#log').addClass('btn btn-primary btn-block');</script>
+                                <p:commandButton  value="Iniciar Sesion" actionListener="#{sesionUsuario.validarUsuario()}" update=":messagesAll" resetValues="true"/>
                             </div>
-                            <!-- /.col -->
+                            <!-- /.col -->  
                         </div>
                     </h:form>
                     <p class="mb-1">
                         <br/>
                         <a href="#">Olvide mi contraseña</a>
                     </p>
+
                 </div>
                 <!-- /.login-card-body -->
+
             </div>
+
         </div>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" position="center">
+            <h:graphicImage value="resources/dist/img/loading.gif" width="140" height="140"/>
+        </p:dialog>
         <!-- /.login-box -->
 
         <!-- jQuery -->

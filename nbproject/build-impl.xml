@@ -1190,7 +1190,7 @@ exists or setup the property manually. For example like this:
         <antcall target="connect-debugger"/>
         <nbdeploy clientUrlPart="${client.urlPart}" debugmode="true" forceRedeploy="true"/>
         <antcall target="debug-display-browser-old"/>
-        <antcall target="debug-display-browser"/>
+
         <antcall target="connect-client-debugger"/>
     </target>
     <target if="do.debug.server" name="connect-debugger" unless="is.debugged">
