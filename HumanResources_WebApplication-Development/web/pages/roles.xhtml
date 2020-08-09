@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../PrincipalTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1 class="text-center">Administracion de roles</h1>
+                <!-- Tabla de contenido -->
+                <h:form id="formProducto">
+                    <!-- Boton para agregar un nuevo producto -->
+                    <p:commandButton actionListener="#{tipoUsuarioManejador.nuevaEntidad()}" process="@this" 
+                                     update=":formDetailProd" oncomplete="PF('productDialog').show()" value="Nuevo" title="Agregar producto"/>
+                    <br />
+                    <br />
+                    <p:dataTable var="tip"  value="#{tipoUsuarioManejador.entidadesLista}" reflow="true" class="table table-bordered table-striped">
+                        <p:column headerText="Codigo tipo usuario">
+                            <h:outputText value="#{tip.tipId}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{tip.tipNombre}"/>
+                        </p:column>                      
+                        <p:column style="width:32px;text-align: center" >
+                            <p:commandButton update=":formDetailProd" oncomplete="PF('productDialog').show()" icon="pi pi-search" title="Ver">
+                                <f:setPropertyActionListener value="#{tip}" target="#{tipoUsuarioManejador.entidadSeleccion}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form> 
+
+                <!-- Formulario para editar y eliminar productos -->
+                <h:form id="formDetailProd">
+                    <p:dialog widgetVar="productDialog" modal="true" header="Detalle de producto" resizable="true" height="40%">
+                        <center>
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Id Producto: "/>
+                                <p:inputText value="#{tipoUsuarioManejador.entidadSeleccion.tipId}"/>
+                                <h:outputText value="Nombre: "/>
+                                <p:inputText value="#{tipoUsuarioManejador.entidadSeleccion.tipNombre}"/>
+                            </p:panelGrid>
+                            <br></br>
+                            <p:commandButton icon="pi pi-pencil" value=" Modificar" update=":messages :formProducto :messagesAll" actionListener="#{tipoUsuarioManejador.guardarEntidad()}"
+                                             onsuccess="PF('productDialog').hide()"  />
+                            <p:commandButton icon="pi pi-trash" value=" Eliminar" update=":messages :formProducto :messagesAll" actionListener="#{tipoUsuarioManejador.eliminarEntidad()}"
+                                             onsuccess="PF('productDialog').hide()" />
+                        </center>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

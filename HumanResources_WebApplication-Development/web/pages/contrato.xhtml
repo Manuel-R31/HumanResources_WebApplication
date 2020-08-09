@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    
+    
+    
+    
+    
+    </h:head>
+    <h:body>
+           <h1 class="text-center">Contratar Empleado</h1>
+
+                <p:growl id="mensajes" globalOnly="true" showDetail="true" showSummary="true"/>
+                <h:form id="formDatos">
+                    <p:growl id="mensajes" globalOnly="true" showDetail="true" showSummary="true"/>
+                    <p:dataTable var="empleado" value="#{actualizarDatosManejador.empleadoLista}" style="margin-bottom:20px">
+                        <p:column headerText="ID" >
+                            <h:outputText value="#{empleado.empId}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{empleado.empNombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Apellido">
+                            <h:outputText value="#{empleado.empApellido}"/>
+                        </p:column>
+                        <p:column headerText="Correo">
+                            <h:outputText value="#{empleado.empCorreo}"/>
+                        </p:column>
+                        <p:column headerText="Fecha de contratacion">
+                            <h:outputText value="#{empleado.empFechaContrato}"/>
+                        </p:column>
+                        <p:column headerText="Sexo">
+                            <h:outputText value="#{empleado.sexId.sexNombre}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{empleado.eemId.eemNombre}"/>
+                        </p:column>
+                        <p:column headerText="Estado Civil">
+                            <h:outputText value="#{empleado.eciId.eciNombre}"/>
+                        </p:column>
+                        <p:column headerText="Departamento">
+                            <h:outputText value="#{empleado.depId.depNombre}"/>
+                        </p:column>
+                        <p:column headerText="Cargo">
+                            <h:outputText value="#{empleado.carId.carNombre}"/>
+                        </p:column>
+
+
+                    </p:dataTable>
+
+                    <p:commandButton value="Nuevo Usuario" actionListener="#{actualizarDatosManejador.actualizarEmp()}" process="@this" update="formNuevoUser" oncomplete="PF('productoDialog').show()"/>
+
+                </h:form>
+
+                <h:form id="formNuevoUser">
+                    <p:dialog widgetVar="productoDialog" modal="true" header="Nuevo Empleado"  width="30%" resizable="true" height="40%" >
+                        <center>
+                            <p:scrollPanel style="width:550px;height:500px">
+                                <p:panelGrid columns="2" style="border:none" rendered="true">
+
+                                    <h:outputText value="ID"/>
+                                    <h:inputText value="#{actualizarDatosManejador.empleado.empId}"/>
+                                    <h:outputText value="Nomre"/>
+                                    <h:inputText value="#{actualizarDatosManejador.empleado.empNombre}"/>
+                                    <h:outputText value="Apellido"/>
+                                    <h:inputText value="#{actualizarDatosManejador.empleado.empApellido}"/>
+                                    <h:outputText value="Correo"/>
+                                    <h:inputText value="#{actualizarDatosManejador.empleado.empCorreo}"/>
+                                    <h:outputText value="Telefono"/>
+                                    <h:inputText value="#{actualizarDatosManejador.empleado.empTelefono}"/>
+                                    <h:outputText value="Dui"/>
+                                    <h:inputText value="#{actualizarDatosManejador.empleado.empDui}"/>
+                                    <h:outputText value="Direccion"/>
+                                    <h:inputText value="#{actualizarDatosManejador.empleado.empDireccion}"/>
+
+                                    <h:outputText value="Fecha Nacimiento"/>
+                                    <p:calendar value="#{actualizarDatosManejador.empleado.empFechaNac}" pattern="dd/MM/yyyy"/>
+                                    <h:outputText value="Fecha Contratacion"/>
+                                    <p:calendar value="#{actualizarDatosManejador.empleado.empFechaContrato}" pattern="dd/MM/yyyy"/>
+
+                                    <h:outputText value="Sexo"/>
+                                    <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.sexId}" style="width:125px">
+                                        <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems itemLabel="#{var.sexNombre}" var="var" value="#{fKmanejador.sexoList}" />
+                                    </p:selectOneMenu>
+
+                                    <h:outputText value="Estado Empleado"/>
+                                    <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.eemId}" style="width:125px">
+                                        <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems itemLabel="#{var.eemNombre}" var="var" value="#{fKmanejador.estadoEmpleadoList}" />
+                                    </p:selectOneMenu>
+
+                                    <h:outputText value="Estado Civil"/>
+                                    <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.eciId}" style="width:125px">
+                                        <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems itemLabel="#{varE.eciNombre}" var="varE" value="#{fKmanejador.estadoCivil}" />
+                                    </p:selectOneMenu>
+                                    
+                                     <h:outputText value="Departamento"/>
+                                    <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.eciId}" style="width:125px">
+                                        <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems itemLabel="#{var.depNombre}" var="var" value="#{fKmanejador.departamentoList}" />
+                                    </p:selectOneMenu>
+                                    
+
+                                        
+
+                                    <h:outputText value="Cargo"/>
+                                    <p:selectOneMenu  value="#{actualizarDatosManejador.empleado.carId}" style="width:125px">
+                                        <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems itemLabel="#{var.carNombre}" var="var" value="#{fKmanejador.cargoList}" />
+                                    </p:selectOneMenu>
+
+
+                                    <p:commandButton value="guardar" actionListener="#{actualizarDatosManejador.actualizarEmp()}" update=":mensajes :formDatos"/>
+
+                                </p:panelGrid>
+                            </p:scrollPanel>
+                        </center>
+                    </p:dialog>
+                </h:form>
+
+    </h:body>
+</html>
+

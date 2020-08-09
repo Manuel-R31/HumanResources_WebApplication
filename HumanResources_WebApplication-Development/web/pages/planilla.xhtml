@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../PrincipalTemplate.xhtml">
+
+            <ui:define name="content">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Generacion de planillas </h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index.devel">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Planillas</li>
+                                </ol>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+
+
+
+
+                <!-- Main content -->
+                <section class="content">    
+                    <div class="container-fluid">
+
+                        <h:form>
+                            <p:commandButton value="Generar planilla" actionListener="#{departamentoManejador.nuevaEntidad()}" process="@this" 
+                                             update=":deptDetalles" oncomplete="PF('detailDialog').show()" icon="pi pi-plus"/>
+                            <br/>
+                            <br/>
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Codigo unico de planilla "/>
+                                <p:inputText/>
+                                <h:outputText value="Fecha inicio"/>
+                                <p:inputText/>
+                                <h:outputText value="Fecha Fin"/>
+                                <p:inputText/>
+                            </p:panelGrid>
+                            <br/>
+                        </h:form>
+
+
+                        <h:form id="tablaDepartamentos">
+                            <p:commandButton value="Nuevo departamento" actionListener="#{departamentoManejador.nuevaEntidad()}" process="@this" 
+                                             update=":deptDetalles" oncomplete="PF('detailDialog').show()" icon="pi pi-plus"/>
+                            <br/>
+                            <br/>
+                            <p:dataTable var="entidad" value="#{departamentoManejador.entidadesLista}" paginator="true" rows="6" reflow="true">  
+
+                                <p:column headerText="ID" filterBy="#{entidad.depId}" filterMatchMode="contains">
+                                    <h:outputText  value="#{entidad.depId}"/>
+                                </p:column>
+                                <p:column headerText="Nombre Departamento" filterBy="#{entidad.depNombre}" filterMatchMode="contains">
+                                    <h:outputText value="#{entidad.depNombre}"/>
+                                </p:column>
+                                <p:column headerText="Estado departamento" filterBy="#{entidad.edeId.edeNombre}" filterMatchMode="contains">
+                                    <h:outputText value="#{entidad.edeId.edeNombre}"/>
+                                </p:column>
+                                <p:column style="width:32px;text-align: center">
+                                    <p:commandButton update=":deptDetalles" oncomplete="PF('detailDialog').show()" icon="pi pi-search" title="Ver">
+                                        <f:setPropertyActionListener value="#{entidad}" target="#{departamentoManejador.entidadSeleccion}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+
+                        </h:form>
+
+                        <h:form id="deptDetalles"> 
+                            <p:dialog header="Detalles de departamento" widgetVar="detailDialog" showEffect="explode"
+                                      hideEffect="hide" resizable="false" position="center">
+
+                                <p:panelGrid columns="2" style="border: none !important;" >
+                                    <h:outputText value="ID: "/>
+                                    <h:outputText value="#{departamentoManejador.entidadSeleccion.depId}"/>
+                                    <h:outputText value="Nombre Departamento: "/>
+                                    <p:inputText value="#{departamentoManejador.entidadSeleccion.depNombre}"/>
+                                    <h:outputText value="EstadoDep ID: "/>
+                                    <p:inputText value="#{departamentoManejador.entidadSeleccion.edeId}"/>
+
+                                    <p:outputLabel  value="Estado Departamento" />
+
+
+                                </p:panelGrid>
+                                <br/>
+                                <center>
+                                    <p:commandButton value="Guardar" actionListener="#{departamentoManejador.guardarEntidad()}" 
+                                                     update=":messages :tablaDepartamentos :messagesAll" icon="pi pi-pencil" styleClass="btn btn-warning" />
+                                    <span>  </span>
+                                    <p:commandButton value="Eliminar" icon="pi pi-trash" actionListener="#{departamentoManejador.entidadesLista}" update=":messages :tablaDepartamentos :messagesAll" 
+                                                     onsuccess="PF('detailDialog').hide()" styleClass="btn btn-danger"/>
+                                </center>
+                            </p:dialog>
+                        </h:form>   
+                    </div><!-- /.container-fluid -->
+                </section>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

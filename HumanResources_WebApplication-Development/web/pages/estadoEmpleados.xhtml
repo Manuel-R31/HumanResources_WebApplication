@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <body>
+        
+        <ui:composition template="./../PrincipalTemplate.xhtml">
+            <ui:define name="content">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Estados de empleados</h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="index.devel">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Estado empleados</li>
+                                </ol>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        
+                        <h:form id="tablaEstdoEmpleado">
+                            <p:dataTable id="estEmp" var="entidad" value="#{estadoEmpleadoManejador.entidadesLista}" paginator="true" rows="5" reflow="true">  
+                                
+                                <p:column headerText="ID" filterBy="#{entidad.eemId}" filterMatchMode="contains">
+                                    <h:outputText  value="#{entidad.eemId}"/>
+                                </p:column>
+                                <p:column headerText="Estado Empleado" filterBy="#{entidad.eemNombre}" filterMatchMode="contains">
+                                    <h:outputText value="#{entidad.eemNombre}"/>
+                                </p:column>
+                                <p:column style="width:32px;text-align: center">
+                                    <p:commandButton update=":estadoDetalle" oncomplete="PF('detailDialog').show()" icon="pi pi-search" title="Ver">
+                                        <f:setPropertyActionListener value="#{entidad}" target="#{estadoEmpleadoManejador.nuevaEntidad()}"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                            <p:commandButton value="Nuevo Estado" actionListener="#{estadoEmpleadoManejador.nuevaEntidad()}" process="@this" 
+                                             update=":estadoDetalle" oncomplete="PF('detailDialog').show()"/>
+                            
+                            <!--ARCHIVOS PDF,XML-->
+                            <div style="float:right;padding-bottom: 5px;">
+                                <p:commandButton value="Descargar PDF" ajax="false">
+                                    <p:dataExporter type="pdf" target="estEmp" fileName="Estado empleados"/>
+                                </p:commandButton>
+                                <p:commandButton value="Descargar CSV" ajax="false">
+                                    <p:dataExporter type="xls" target="estEmp" fileName="Estado empleados" />
+                                </p:commandButton>
+                            </div>
+                            
+                        </h:form>
+                        
+                        <h:form id="estadoDetalle"> 
+                            <p:dialog header="Estado Empleado" widgetVar="detailDialog" showEffect="explode"
+                                      hideEffect="hide" resizable="false" position="center">
+                                
+                                <p:panelGrid columns="2" style="border: none !important;">
+                                    <h:outputText value="ID: "/>
+                                    <h:outputText value="#{estadoEmpleadoManejador.entidadSeleccion.eemId}"/>
+                                    <h:outputLabel value="Estado:" />
+                                    <p:selectOneMenu  value="#{estadoEmpleadoManejador.estadoEmpleado.eemId}" style="width:125px">
+                                        <f:selectItem  itemLabel="-Seleccione-" itemValue="" />
+                                        <f:selectItems itemLabel="#{estdEmpl.eemNombre}" var="estdEmpl" value="#{fKmanejador.estadoEmpleadoList}" />
+                                    </p:selectOneMenu>
+                                    
+                                    <p:commandButton value="Eliminar" actionListener="#{estadoEmpleadoManejador.entidadesLista}" update=":messages :tablaEstdoEmpleado :messagesAll" 
+                                                     onsuccess="PF('detailDialog').hide()" />
+                                    <p:commandButton value="Guardar" actionListener="#{estadoEmpleadoManejador.guardarEntidad()}" 
+                                                     update=":messages :tablaEstdoEmpleado :messagesAll"/>
+                                </p:panelGrid>
+                            </p:dialog>
+                        </h:form>
+                        
+                    </div><!-- /.container-fluid -->
+                </section>
+            </ui:define>
+        </ui:composition>
+        
+    </body>
+</html>
+
